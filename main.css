@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.flex-container {
+  width: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  height: 100vh;
+  margin:auto;
+}
+
+.flex-item {
+  width: 160px;
+  box-sizing: border-box;
+  margin: 0 5px 5px 0;
+  padding: 5px 0;
+}
+
+.flex-radio {
+  
+}

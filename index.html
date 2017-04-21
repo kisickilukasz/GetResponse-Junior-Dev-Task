@@ -4,34 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="main.css" rel="stylesheet">
   <title>Document</title>
 </head>
 <body>
-    <form>
-        <input type="radio" name="1_ticket" value=""> 1 TICKET €109
-        <input type="radio" name="5_tickets" value=""> 5 TICKETS €495
+    <form class="flex-container">
+          <div class="flex-item flex-radio"><input class="flex-item-radio" type="radio" name="1_ticket" value=""> 1 TICKET €109</div>
+          <div class="flex-item flex-radio"><input class="flex-item-radio" type="radio" name="5_tickets" value=""> 5 TICKETS €495</div>
 
-        <input type="text" placeholder="first_name" name="first_name">
-        <input type="text" value="first_name" name="last_name">
+          <input class="flex-item" type="text" placeholder="first_name" name="first_name">
+          <input class="flex-item" type="text" value="last_name" name="last_name">
 
-        <textarea name="textarea_1">textarea_1</textarea>
-        <textarea name="textarea_2">textarea_2</textarea>
+          <textarea class="flex-item" name="textarea_1">textarea_1</textarea>
+          <textarea class="flex-item" name="textarea_2">textarea_2</textarea>
 
-        <input type="text" name="email" value="email">
-        <input type="password" name="password" value="password">
+          <input class="flex-item" type="text" name="email" value="email">
+          <input class="flex-item" type="password" name="password" value="password">
 
-        <input type="text" name="vid_number" value="vid_number">
-        <input type="text" name="tickets_count" value="tickets_count">
+          <input class="flex-item" type="text" name="vid_number" value="vid_number">
+          <input class="flex-item" type="text" name="tickets_count" value="tickets_count">
 
-        <input type="submit" value="REGISTER">
+          <input class="flex-item"t type="submit" value="REGISTER">
     </form>
 </body>
-<!-- </html>
-
-<html>
-    <head>
-        <title></title>
-        <meta charset="utf-8"/>
-    </head>
-
-</html> -->
