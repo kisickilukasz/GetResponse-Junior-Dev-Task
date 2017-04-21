@@ -9,21 +9,23 @@
 </head>
 <body>
     <form class="flex-container">
-          <div class="flex-item flex-radio"><input class="flex-item-radio" type="radio" name="1_ticket" value=""> 1 TICKET €109</div>
-          <div class="flex-item flex-radio"><input class="flex-item-radio" type="radio" name="5_tickets" value=""> 5 TICKETS €495</div>
+          <div class="flex-item flex-radio1"><input class="flex-item-radio" type="radio" name="1_ticket" value=""> 1 TICKET €109</div>
+          <div class="flex-item flex-radio2"><input class="flex-item-radio" type="radio" name="5_tickets" value=""> 5 TICKETS €495</div>
 
-          <input class="flex-item" type="text" placeholder="first_name" name="first_name">
+          <input class="flex-item left-column" type="text" placeholder="first_name" name="first_name">
           <input class="flex-item" type="text" value="last_name" name="last_name">
 
-          <textarea class="flex-item" name="textarea_1">textarea_1</textarea>
-          <textarea class="flex-item" name="textarea_2">textarea_2</textarea>
+          <textarea class="flex-item text-area left-column" name="textarea_1">textarea_1</textarea>
+          <textarea class="flex-item text-area" name="textarea_2">textarea_2</textarea>
 
-          <input class="flex-item" type="text" name="email" value="email">
+          <input class="flex-item left-column" type="text" name="email" value="email">
           <input class="flex-item" type="password" name="password" value="password">
+          <div class="flex-item footer-box">
+            <input class="flex-item vid-number" type="text" name="vid_number" value="vid_number">
+            <input class="flex-item tickets-count" type="text" name="tickets_count" value=""> <span id="tickets-count-label">*Number of tickets</span>
 
-          <input class="flex-item" type="text" name="vid_number" value="vid_number">
-          <input class="flex-item" type="text" name="tickets_count" value="tickets_count">
+            <input class="flex-item submit-button"t type="submit" value="REGISTER">
+          </div>
 
-          <input class="flex-item"t type="submit" value="REGISTER">
     </form>
 </body>

@@ -1,26 +1,86 @@
 body {
   margin: 0;
   padding: 0;
-}
+  background-color: #ea8f33;
+  background-image: linear-gradient(to bottom, #050504, #ea8f33);
+  background-repeat: repeat-x;
+  }
 
 .flex-container {
-  width: 340px;
+  width: 408px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-line-pack: center;
   align-content: center;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  height: 100vh;
+  height: 100vh;         /* view-port height*/
   margin:auto;
+  border: 1px solid goldenrod;
 }
 
 .flex-item {
-  width: 160px;
+  width: 190px;
   box-sizing: border-box;
-  margin: 0 5px 5px 0;
-  padding: 5px 0;
+  margin: 0 7px 7px 0px;
+  padding: 3px 0;
+  border-style: none;
+  border-radius: 2px;
+  padding: 5px;
 }
 
-.flex-radio {
-  
+.flex-radio1 {
+  margin-left: 13%;
+  width: 137px;
+  padding-right: 0;
+  color:#ea8f33;
+}
+
+.flex-radio2 {
+  padding-left: 0;
+  color: #ea8f33;
+}
+
+.vid-number {
+  width: 104px;
+  margin-right: 0;
+}
+
+.tickets-count {
+  width: 25px;
+  margin-left: 3px;
+}
+
+.submit-button {
+  background-color: #0067a3;
+  color: white;
+  border-style: none;
+  font-family: monospace;
+  margin-top: 4px;
+}
+
+#tickets-count-label {
+  font-size: 10px;
+  color: white;
+}
+
+.footer-box {
+  width: 240px;
+  margin-top: 40px;
+}
+
+.left-column {
+  margin-left: 7px;
+}
+
+.text-area {
+  resize: none;
+  height: 26px;
 }
