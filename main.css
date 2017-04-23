@@ -30,32 +30,36 @@ body {
   width: 190px;
   box-sizing: border-box;
   margin: 0 7px 7px 0px;
-  padding: 3px 0;
   border-style: none;
   border-radius: 2px;
   padding: 5px;
 }
 
-.flex-radio1 {
-  margin-left: 13%;
-  width: 137px;
-  padding-right: 0;
-  color:#ea8f33;
+#flex-radio-left {
+margin-bottom: 5px;
 }
 
-.flex-radio2 {
-  padding-left: 0;
+#flex-radio-right {
+  margin: 0 4px 5px 10px;
+}
+
+.radio-label {
   color: #ea8f33;
+  margin-bottom: 5px;
 }
 
-.vid-number {
+#vid-number {
   width: 104px;
   margin-right: 0;
 }
 
-.tickets-count {
+#tickets-count {
   width: 25px;
   margin-left: 3px;
+  box-sizing: border-box;
+  border-style: none;
+  border-radius: 2px;
+  padding: 5px;
 }
 
 .submit-button {
@@ -83,4 +87,8 @@ body {
 .text-area {
   resize: none;
   height: 26px;
+}
+
+.input-placeholder {
+  color: red;
 }

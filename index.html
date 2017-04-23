@@ -8,24 +8,28 @@
   <title>Document</title>
 </head>
 <body>
-    <form class="flex-container">
-          <div class="flex-item flex-radio1"><input class="flex-item-radio" type="radio" name="1_ticket" value=""> 1 TICKET €109</div>
-          <div class="flex-item flex-radio2"><input class="flex-item-radio" type="radio" name="5_tickets" value=""> 5 TICKETS €495</div>
+    <form class="flex-container" id="form">
+          <input class="flex-radio-input" id="flex-radio-left" type="radio" name="ticket-radio">
+          <label class="radio-label" for="flex-radio-left">1 TICKET € 109</label>
+          <input class="flex-radio-input" id="flex-radio-right" type="radio" name="ticket-radio">
+          <label class="radio-label" for="flex-radio-right">5 TICKETS € 495</label>
 
-          <input class="flex-item left-column" type="text" placeholder="first_name" name="first_name">
-          <input class="flex-item" type="text" value="last_name" name="last_name">
+          <input class="flex-item left-column input-placeholder" data-placeholder="First Name" type="text" value="" name="first_name">
+          <input class="flex-item input-placeholder" data-placeholder="Last Name" type="text" value="" name="last_name">
 
-          <textarea class="flex-item text-area left-column" name="textarea_1">textarea_1</textarea>
-          <textarea class="flex-item text-area" name="textarea_2">textarea_2</textarea>
+          <textarea class="flex-item text-area left-column input-placeholder" data-placeholder="Textarea" name="textarea_1" value=""></textarea>
+          <textarea class="flex-item text-area input-placeholder" data-placeholder="Textarea" name="textarea_2" value=""></textarea>
 
-          <input class="flex-item left-column" type="text" name="email" value="email">
-          <input class="flex-item" type="password" name="password" value="password">
+          <input class="flex-item left-column input-placeholder" data-placeholder="Email" type="text" name="email" value="">
+          <input class="flex-item input-placeholder" data-placeholder="Password" type="password" name="password" value="">
+
           <div class="flex-item footer-box">
-            <input class="flex-item vid-number" type="text" name="vid_number" value="vid_number">
-            <input class="flex-item tickets-count" type="text" name="tickets_count" value=""> <span id="tickets-count-label">*Number of tickets</span>
-
+            <input class="flex-item input-placeholder" id="vid-number" data-placeholder="Vid Number" type="text" name="vid_number" value="">
+            <input id="tickets-count" type="text" name="tickets_count" value="">
+            <span id="tickets-count-label">*Number of tickets</span>
             <input class="flex-item submit-button"t type="submit" value="REGISTER">
           </div>
-
     </form>
+
+    <script src="index.js"></script>
 </body>
