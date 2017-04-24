@@ -99,15 +99,20 @@
   const validateForm = (event) => {
     let element = event.target;
     let errors = [];
-    let name_re = /^[a-zA-Z]+\s*?[a-zA-Z]+\s*?$/;
-    let email_re = /^[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+?@\s*?[a-zA-Z]+\.[a-zA-Z]{3}\s*?$/;
 
-    if (!name_re.test(element.children.first_name.value)) {
+    if (!regex.name.test(element.children.first_name.value)) {
       console.log("Validation error!")
     } else {
       console.log("Validation success!")
     }
     event.preventDefault();
+  }
+
+  const regex = {
+    name:     /^[a-zA-Z]+\s*?[a-zA-Z-]+\s*?$/,
+    email:    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/,
+    password: /\S/g,
+    number:   /^\d+$/
   }
 
   // event delegation on form
