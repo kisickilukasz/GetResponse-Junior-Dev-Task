@@ -59,7 +59,6 @@
       element.value = "";
       removeClassFromPlaceholder(element);
     }
-    console.log(event);
   }
 
   const restorePlaceholder = event => {
@@ -73,7 +72,6 @@
     }
 
     setCaret(event);
-    console.log(event);
   }
 
   const setPasswordInputType = element => {
@@ -98,11 +96,27 @@
     element.classList.remove("input-placeholder");
   }
 
+  const validateForm = (event) => {
+    let element = event.target;
+    let errors = [];
+    let name_re = /^[a-zA-Z]+\s*?[a-zA-Z]+\s*?$/;
+    let email_re = /^[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+?@\s*?[a-zA-Z]+\.[a-zA-Z]{3}\s*?$/;
+
+    if (!name_re.test(element.children.first_name.value)) {
+      console.log("Validation error!")
+    } else {
+      console.log("Validation success!")
+    }
+    event.preventDefault();
+  }
+
   // event delegation on form
   form.addEventListener("focus", setCaret, false);
   form.addEventListener("click", setCaret, false);
   form.addEventListener("keydown", clearPlaceholder, false);
   form.addEventListener("keyup", restorePlaceholder, false);
   form.addEventListener("blur", restorePlaceholder, true);
+
+  form.addEventListener("submit", validateForm, false);
 
 })(window)
