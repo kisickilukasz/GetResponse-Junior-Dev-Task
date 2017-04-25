@@ -100,7 +100,7 @@
     let element = event.target;
     let errors = [];
 
-    if (!regex.name.test(element.children.first_name.value)) {
+    if (!regex.password.test(element.children.password.value)) {
       console.log("Validation error!")
     } else {
       console.log("Validation success!")
@@ -109,10 +109,13 @@
   }
 
   const regex = {
-    name:     /^[a-zA-Z]+\s*?[a-zA-Z-]+\s*?$/,
-    email:    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/,
-    password: /\S/g,
-    number:   /^\d+$/
+    name:          /^[a-zA-Z]+\s*?[a-zA-Z-]+\s*?$/,
+    email:         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/,
+    textarea_1:    /^.{1,10}$/,
+    textarea_2:    /^.{1,20}$/,
+    password:      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/,
+    vid_number:    /^\d{1,5}$/,
+    ticket_count:  /^\d{1,2}$/
   }
 
   // event delegation on form
