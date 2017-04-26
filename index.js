@@ -148,7 +148,7 @@
   }
 
   const validateInput = element => {
-    let isEmpty = element.value === element.dataset.placeholder ? true : false;
+    let isEmpty = element.value === element.dataset.placeholder || element.value === "" ? true : false;
     let isValid = checkIfValid(element.value, regex[element.name], isEmpty);
     let message = getValidationMessage(isValid, isEmpty, element.name, element.dataset.placeholder);
     if (!message) {
@@ -163,6 +163,16 @@
       return isEmpty;
     }
     return pattern.test(elementValue);
+  }
+
+  const checkCharactersRange = event => {
+    let element = event.target;
+    if (element.name === "textarea_1" || element.name === "textarea_2" || element.name === "vid_number") {
+      validateInput(element);
+      showValidationMessage(errorMessages);
+      errorMessages = [];
+    }
+    return;
   }
 
   const getValidationMessage = (isValid, isEmpty, elementName, elementPlaceholder) => {
@@ -193,15 +203,15 @@
   }
 
   const errorTemplates = {
-    inputEmpty  : "field can not be empty!",
-    first_name  : "field can not contain any numbers!",
-    last_name   : "field can not contain any numbers!",
-    textarea_1  : "field can not contain more than 10 characters!",
-    textarea_2  : "field can not contain more than 20 characters!",
+    inputEmpty  : "can not be empty!",
+    first_name  : "can not contain any numbers!",
+    last_name   : "can not contain any numbers!",
+    textarea_1  : "can not contain more than 10 characters!",
+    textarea_2  : "can not contain more than 20 characters!",
     email       : "format has to be valid!",
-    password    : "field has to be at least 8 characters long, contain upper letter, lower letter, number and a special character",
-    vid_number  : "field can contain only numbers and maximum of 5 characters",
-    ticket_count: "field accepts values from 1 to 20!"
+    password    : "has to be at least 8 characters long, contain upper letter, lower letter, number and a special character",
+    vid_number  : "can contain only numbers and maximum of 5 characters",
+    ticket_count: "accepts values from 1 to 20!"
   }
 
   const regex = {
@@ -212,13 +222,14 @@
     textarea_2  : /^.{1,20}$/,
     password    : /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/,
     vid_number  : /^\d{1,5}$/,
-    ticket_count: /^\d{1,2}$/
+    ticket_count: /^([1-9]|1\d|20)$/
   }
 
   // event delegation on form
   form.addEventListener("focus", setCaret, false);
   form.addEventListener("click", setCaret, false);
   form.addEventListener("keydown", clearPlaceholder, false);
+  form.addEventListener("keyup", checkCharactersRange, false);
   form.addEventListener("keyup", restorePlaceholder, false);
   form.addEventListener("blur", restorePlaceholder, true);
 
