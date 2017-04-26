@@ -177,9 +177,9 @@
 
   const getValidationMessage = (isValid, isEmpty, elementName, elementPlaceholder) => {
     if (isEmpty) {
-      return elementPlaceholder !== "" ? elementPlaceholder + " " + errorTemplates.inputEmpty : "Ticket input " + errorTemplates.inputEmpty;
+      return elementPlaceholder !== "" ? `${elementPlaceholder} ${errorTemplates.inputEmpty}` : `Ticket input ${errorTemplates.inputEmpty}`;
     } else if (!isValid) {
-      return elementPlaceholder !== "" ? elementPlaceholder + " " + errorTemplates[elementName] : "Ticket input " + errorTemplates[elementName];
+      return elementPlaceholder !== "" ? `${elementPlaceholder} ${errorTemplates[elementName]}` : `Ticket input ${errorTemplates[elementName]}`;
     } else {
       return;
     }
@@ -190,7 +190,8 @@
       return;
     } else {
       errorMessages.forEach( message => {
-        console.log(message)
+        addElement(message);
+        console.log(message);
       })
     }
   }
@@ -200,6 +201,15 @@
       return true;
     }
     return false;
+  }
+
+  const addElement = message => {
+    let toastContainer = document.getElementsByName('toast_container');
+    let toast = document.createElement('div');
+    let firstChild = toastContainer[0].hasChildNodes() ? toastContainer[0].firstChild : null;
+    toast.textContent = message;
+    toast.classList.add('toast');
+    toastContainer[0].insertBefore(toast, firstChild);
   }
 
   const errorTemplates = {

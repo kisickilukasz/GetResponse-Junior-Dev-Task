@@ -1,0 +1,26 @@
+{
+  "name": "getresponse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d dist"
+  },
+  "scripts": {
+    "build": "babel --presets env src -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kisickilukasz/GetResponse-Junior-Dev-Task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kisickilukasz/GetResponse-Junior-Dev-Task/issues"
+  },
+  "homepage": "https://github.com/kisickilukasz/GetResponse-Junior-Dev-Task#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.4.0"
+  }
+}
