@@ -44,14 +44,14 @@ body {
 .toast-container {
   width: 370px;
   position: absolute;
-  bottom: 20px;
+  bottom: 2px;
   right: 0;
   border: 1px solid red;
   color: white;
 }
 
 .toast {
-  width: 370px;
+  width: 350px;
   background-color: #ed4242;
   padding: 10px;
   margin-top: 5px;
@@ -61,20 +61,52 @@ body {
   text-align: center;
 }
 
-.fade {
-  -webkit-animation: fade 1s;
-  animation: fade 1s;
+.fade-in {
+  -webkit-animation: fade-in 1s;
+  animation: fade-in 1s;
   opacity: 0.8;
 }
 
-@-webkit-keyframes fade {
+@-webkit-keyframes fade-in {
     from {opacity: 0}
     to {opacity: 0.8}
 }
 
-@keyframes fade {
+@keyframes fade-in {
     from {opacity: 0}
     to {opacity: 0.8}
+}
+
+.fade-out {
+  -webkit-animation: fade-out 500ms;
+  animation: fade-out 500ms;
+  opacity: 0.2;
+}
+
+@-webkit-keyframes fade-out {
+    from {opacity: 0.8}
+    to {opacity: 0.2}
+}
+
+@keyframes fade-out {
+    from {opacity: 0.8}
+    to {opacity: 0.2}
+}
+
+.slide-down {
+  -webkit-animation: slide-down 500ms;
+  animation: slide-down 500ms;
+  transform: translateY(42px);
+}
+
+@-webkit-keyframes slide-down {
+    from {transform: translateY(0px)}
+    to {transform: translateY(42px)}
+}
+
+@keyframes slide-down {
+  from {transform: translateY(0px)}
+  to {transform: translateY(42px)}
 }
 
 #flex-radio-left {

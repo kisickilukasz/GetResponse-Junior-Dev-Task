@@ -147,7 +147,7 @@
       event.preventDefault();
     };
 
-    checkToastContainer(toastContainer);
+
   }
 
   const validateInput = element => {
@@ -170,7 +170,8 @@
 
   const checkCharactersRange = event => {
     let element = event.target;
-    if (element.name === "textarea_1" || element.name === "textarea_2" || element.name === "vid_number") {
+    let length = element.value.length;
+    if ((element.name === "textarea_1" && length > 10) || (element.name === "textarea_2" && length > 20) || (element.name === "vid_number" && length > 5)) {
       validateInput(element);
       showValidationMessage(errorMessages);
       errorMessages = [];
@@ -207,6 +208,7 @@
     return false;
   }
 
+  // Prevents from displaying the same message again
   const checkIfMessageDisplayed = message => {
     const toastContainerValues = Object.keys(toastContainer.children).map(key => toastContainer.children[key].textContent);
     const isDisplayed = toastContainerValues.indexOf(message) > -1;
@@ -219,19 +221,34 @@
     const toast = document.createElement('div');
     const firstChild = toastContainer.hasChildNodes() ? toastContainer.firstChild : null;
     toast.textContent = message;
-    toast.classList.add('toast', 'fade');
+    toast.classList.add('toast', 'fade-in');
     toastContainer.insertBefore(toast, firstChild);
-    // toast.classList.add('toast-displayed')
-    // addTransition(toast);
   }
 
-  const addTransition = toast => {
-    toast.style.opacity = 0.8;
-    toast.style.transition = "opacity 1s ease 0s"
-  }
-
-  const checkToastContainer = toastContainer => {
-    console.log(toastContainer)
+  // After 3s checks if there are any messages displayed and starts the slider
+  const startSliderOnIdle = event => {
+    setTimeout(function() {
+      let lastChild = toastContainer.lastChild;
+      let counter = toastContainer.childElementCount;
+      if (counter > 0) {
+        let id = setInterval(function() {
+          if (counter === 0 ) {
+            clearInterval(id);
+              return;
+          }
+          let lastChild = toastContainer.lastChild;
+          toastContainer.classList.add('slide-down');
+          lastChild.classList.add('fade-out');
+          setTimeout(function() {
+            toastContainer.removeChild(lastChild);
+            toastContainer.classList.remove('slide-down');
+            errorMessages.shift();
+            console.log(errorMessages)
+          }, 500)
+          counter--;
+        }, 600)
+      }
+    }, 2000)
   }
 
 
@@ -242,7 +259,7 @@
     textarea_1  : "can not contain more than 10 characters!",
     textarea_2  : "can not contain more than 20 characters!",
     email       : "format has to be valid!",
-    password    : "has to be at least 8 characters long, contain upper letter, lower letter, number and a special character",
+    password    : "has to be min 8 characters, upper letter, lower letter, number and a special character",
     vid_number  : "can contain only numbers and maximum of 5 characters",
     ticket_count: "accepts values from 1 to 20!"
   }
@@ -267,5 +284,6 @@
   form.addEventListener("blur", restorePlaceholder, true);
 
   form.addEventListener("submit", validateForm, false);
+  form.addEventListener("submit", startSliderOnIdle, false);
 
 })(window)
