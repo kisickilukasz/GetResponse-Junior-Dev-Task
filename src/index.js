@@ -226,7 +226,7 @@
   }
 
   // After 3s checks if there are any messages displayed and starts the slider
-  const startSliderOnIdle = event => {
+  const startSlider = event => {
     setTimeout(function() {
       let lastChild = toastContainer.lastChild;
       let counter = toastContainer.childElementCount;
@@ -284,6 +284,6 @@
   form.addEventListener("blur", restorePlaceholder, true);
 
   form.addEventListener("submit", validateForm, false);
-  form.addEventListener("submit", startSliderOnIdle, false);
+  form.addEventListener("submit", startSlider, false);
 
 })(window)

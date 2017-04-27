@@ -1,8 +1,13 @@
 body {
   position: relative;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
   margin: 0;
   padding: 0;
   background-color: #ea8f33;
@@ -29,7 +34,9 @@ body {
   height: 100vh;         /* view-port height*/
   margin:auto;
   border: 1px solid goldenrod;
-  flex: none;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
 }
 
 .flex-item {
@@ -96,17 +103,18 @@ body {
 .slide-down {
   -webkit-animation: slide-down 500ms;
   animation: slide-down 500ms;
-  transform: translateY(42px);
+  -webkit-transform: translateY(42px);
+          transform: translateY(42px);
 }
 
 @-webkit-keyframes slide-down {
-    from {transform: translateY(0px)}
-    to {transform: translateY(42px)}
+    from {-webkit-transform: translateY(0px);transform: translateY(0px)}
+    to {-webkit-transform: translateY(42px);transform: translateY(42px)}
 }
 
 @keyframes slide-down {
-  from {transform: translateY(0px)}
-  to {transform: translateY(42px)}
+  from {-webkit-transform: translateY(0px);transform: translateY(0px)}
+  to {-webkit-transform: translateY(42px);transform: translateY(42px)}
 }
 
 #flex-radio-left {
