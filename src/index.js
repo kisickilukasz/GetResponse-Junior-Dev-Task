@@ -7,6 +7,7 @@
   const ticket_count = document.getElementById('ticket-count');
   const radios = document.getElementsByName('ticket-radio');
   const inputs = document.querySelectorAll('[data-placeholder]');
+  const toastContainer = document.getElementsByName('toast_container')[0];
 
   // logic for unchecking previously checked radio input
   radios.forEach( radio => {
@@ -145,6 +146,8 @@
     if (!isFormValid(errorMessages)) {
       event.preventDefault();
     };
+
+    checkToastContainer(toastContainer);
   }
 
   const validateInput = element => {
@@ -189,9 +192,10 @@
     if (!errorMessages.length) {
       return;
     } else {
-      errorMessages.forEach( message => {
-        addElement(message);
-        console.log(message);
+      errorMessages.forEach( (message, index) => {
+        setTimeout(function() {
+          checkIfMessageDisplayed(message);
+        }, 100 * index)
       })
     }
   }
@@ -203,14 +207,33 @@
     return false;
   }
 
-  const addElement = message => {
-    let toastContainer = document.getElementsByName('toast_container');
-    let toast = document.createElement('div');
-    let firstChild = toastContainer[0].hasChildNodes() ? toastContainer[0].firstChild : null;
-    toast.textContent = message;
-    toast.classList.add('toast');
-    toastContainer[0].insertBefore(toast, firstChild);
+  const checkIfMessageDisplayed = message => {
+    const toastContainerValues = Object.keys(toastContainer.children).map(key => toastContainer.children[key].textContent);
+    const isDisplayed = toastContainerValues.indexOf(message) > -1;
+    if (!isDisplayed) {
+      addElement(message)
+    }
   }
+
+  const addElement = message => {
+    const toast = document.createElement('div');
+    const firstChild = toastContainer.hasChildNodes() ? toastContainer.firstChild : null;
+    toast.textContent = message;
+    toast.classList.add('toast', 'fade');
+    toastContainer.insertBefore(toast, firstChild);
+    // toast.classList.add('toast-displayed')
+    // addTransition(toast);
+  }
+
+  const addTransition = toast => {
+    toast.style.opacity = 0.8;
+    toast.style.transition = "opacity 1s ease 0s"
+  }
+
+  const checkToastContainer = toastContainer => {
+    console.log(toastContainer)
+  }
+
 
   const errorTemplates = {
     inputEmpty  : "can not be empty!",

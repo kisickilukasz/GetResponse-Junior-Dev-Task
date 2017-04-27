@@ -10,6 +10,7 @@
   var ticket_count = document.getElementById('ticket-count');
   var radios = document.getElementsByName('ticket-radio');
   var inputs = document.querySelectorAll('[data-placeholder]');
+  var toastContainer = document.getElementsByName('toast_container')[0];
 
   // logic for unchecking previously checked radio input
   radios.forEach(function (radio) {
@@ -149,6 +150,8 @@
     if (!isFormValid(errorMessages)) {
       event.preventDefault();
     };
+
+    checkToastContainer(toastContainer);
   };
 
   var validateInput = function validateInput(element) {
@@ -181,9 +184,9 @@
 
   var getValidationMessage = function getValidationMessage(isValid, isEmpty, elementName, elementPlaceholder) {
     if (isEmpty) {
-      return elementPlaceholder !== "" ? elementPlaceholder + " " + errorTemplates.inputEmpty : "Ticket input " + errorTemplates.inputEmpty;
+      return elementPlaceholder !== "" ? elementPlaceholder + ' ' + errorTemplates.inputEmpty : 'Ticket input ' + errorTemplates.inputEmpty;
     } else if (!isValid) {
-      return elementPlaceholder !== "" ? elementPlaceholder + " " + errorTemplates[elementName] : "Ticket input " + errorTemplates[elementName];
+      return elementPlaceholder !== "" ? elementPlaceholder + ' ' + errorTemplates[elementName] : 'Ticket input ' + errorTemplates[elementName];
     } else {
       return;
     }
@@ -193,8 +196,10 @@
     if (!errorMessages.length) {
       return;
     } else {
-      errorMessages.forEach(function (message) {
-        console.log(message);
+      errorMessages.forEach(function (message, index) {
+        setTimeout(function () {
+          checkIfMessageDisplayed(message);
+        }, 100 * index);
       });
     }
   };
@@ -204,6 +209,35 @@
       return true;
     }
     return false;
+  };
+
+  var checkIfMessageDisplayed = function checkIfMessageDisplayed(message) {
+    var toastContainerValues = Object.keys(toastContainer.children).map(function (key) {
+      return toastContainer.children[key].textContent;
+    });
+    var isDisplayed = toastContainerValues.indexOf(message) > -1;
+    if (!isDisplayed) {
+      addElement(message);
+    }
+  };
+
+  var addElement = function addElement(message) {
+    var toast = document.createElement('div');
+    var firstChild = toastContainer.hasChildNodes() ? toastContainer.firstChild : null;
+    toast.textContent = message;
+    toast.classList.add('toast', 'fade');
+    toastContainer.insertBefore(toast, firstChild);
+    // toast.classList.add('toast-displayed')
+    // addTransition(toast);
+  };
+
+  var addTransition = function addTransition(toast) {
+    toast.style.opacity = 0.8;
+    toast.style.transition = "opacity 1s ease 0s";
+  };
+
+  var checkToastContainer = function checkToastContainer(toastContainer) {
+    console.log(toastContainer);
   };
 
   var errorTemplates = {
