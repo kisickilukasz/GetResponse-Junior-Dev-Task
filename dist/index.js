@@ -1,16 +1,35 @@
 'use strict';
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 (function (window) {
 
   'use strict';
 
   var setCheck = null;
-  var errorMessages = [];
+  var messages = [];
   var form = document.getElementById('form');
   var ticket_count = document.getElementById('ticket-count');
   var radios = document.getElementsByName('ticket-radio');
   var inputs = document.querySelectorAll('[data-placeholder]');
-  var toastContainer = document.getElementsByName('toast_container')[0];
+  var messageWrapper = document.getElementsByName('message_wrapper')[0];
+
+  // shows succsess message after submit
+  var init = function init() {
+    var retrieved_person = localStorage.getItem("registered_person");
+    var registered_person = JSON.parse(retrieved_person);
+    var isSubmitted = registered_person.submitted;
+    if (!isSubmitted) {
+      return;
+    } else {
+      var message = "Form submitted successfully";
+      messages.push(message);
+      addElement(message);
+      startSlider();
+      registered_person.submitted = false;
+      localStorage.setItem("registered_person", JSON.stringify(registered_person));
+    }
+  };
 
   // logic for unchecking previously checked radio input
   radios.forEach(function (radio) {
@@ -103,7 +122,7 @@
   };
 
   var validateForm = function validateForm(event) {
-    errorMessages = [];
+    messages = [];
     var elements = document.getElementById("form").elements;
 
     if (elements["first_name"].name === "first_name") {
@@ -146,10 +165,41 @@
       validateInput(_element7);
     }
 
-    showValidationMessage(errorMessages);
-    if (!isFormValid(errorMessages)) {
+    showValidationMessage(messages);
+
+    if (!isFormValid(messages)) {
       event.preventDefault();
+    } else {
+      writeToLocalStorage(elements);
     };
+  };
+
+  var writeToLocalStorage = function writeToLocalStorage(elements) {
+    var first_name = elements.first_name.value;
+    var last_name = elements.last_name.value;
+    var textarea_1 = elements.textarea_1.value;
+    var textarea_2 = elements.textarea_2.value;
+    var email = elements.email.value;
+    var vid_number = elements.vid_number.value;
+    var ticket_count = elements.ticket_count.value;
+    var submitted = true;
+    var registered_person = new RegisteredPerson(first_name, last_name, textarea_1, textarea_2, email, vid_number, ticket_count, submitted);
+
+    localStorage.setItem("registered_person", JSON.stringify(registered_person));
+    console.log(localStorage);
+  };
+
+  var RegisteredPerson = function RegisteredPerson(first_name, last_name, textarea_1, textarea_2, email, vid_number, ticket_count, submitted) {
+    _classCallCheck(this, RegisteredPerson);
+
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.textarea_1 = textarea_1;
+    this.textarea_2 = textarea_2;
+    this.email = email;
+    this.vid_number = vid_number;
+    this.ticket_count = ticket_count;
+    this.submitted = submitted;
   };
 
   var validateInput = function validateInput(element) {
@@ -158,8 +208,8 @@
     var message = getValidationMessage(isValid, isEmpty, element.name, element.dataset.placeholder);
     if (!message) {
       return;
-    } else {
-      errorMessages.push(message);
+    } else if (messages.indexOf(message) === -1) {
+      messages.push(message);
     }
   };
 
@@ -175,10 +225,13 @@
     var length = element.value.length;
     if (element.name === "textarea_1" && length > 10 || element.name === "textarea_2" && length > 20 || element.name === "vid_number" && length > 5) {
       validateInput(element);
-      showValidationMessage(errorMessages);
-      errorMessages = [];
+      showValidationMessage(messages);
+      if (messages.length === 1) {
+        // checks if error messages is diplayed and starts the slider if true
+        startSlider(event);
+        form.removeEventListener("keyup", checkCharactersRange, false);
+      }
     }
-    return;
   };
 
   var getValidationMessage = function getValidationMessage(isValid, isEmpty, elementName, elementPlaceholder) {
@@ -191,11 +244,11 @@
     }
   };
 
-  var showValidationMessage = function showValidationMessage(errorMessages) {
-    if (!errorMessages.length) {
+  var showValidationMessage = function showValidationMessage(messages) {
+    if (!messages.length) {
       return;
     } else {
-      errorMessages.forEach(function (message, index) {
+      messages.forEach(function (message, index) {
         setTimeout(function () {
           checkIfMessageDisplayed(message);
         }, 100 * index);
@@ -203,8 +256,8 @@
     }
   };
 
-  var isFormValid = function isFormValid(errorMessages) {
-    if (!errorMessages.length) {
+  var isFormValid = function isFormValid(messages) {
+    if (!messages.length) {
       return true;
     }
     return false;
@@ -212,47 +265,49 @@
 
   // Prevents from displaying the same message again
   var checkIfMessageDisplayed = function checkIfMessageDisplayed(message) {
-    var toastContainerValues = Object.keys(toastContainer.children).map(function (key) {
-      return toastContainer.children[key].textContent;
+    var errorNotificationValues = Object.keys(messageWrapper.children).map(function (key) {
+      return messageWrapper.children[key].textContent;
     });
-    var isDisplayed = toastContainerValues.indexOf(message) > -1;
+    var isDisplayed = errorNotificationValues.indexOf(message) > -1;
     if (!isDisplayed) {
       addElement(message);
     }
+    return isDisplayed;
   };
 
   var addElement = function addElement(message) {
-    var toast = document.createElement('div');
-    var firstChild = toastContainer.hasChildNodes() ? toastContainer.firstChild : null;
-    toast.textContent = message;
-    toast.classList.add('toast', 'fade-in');
-    toastContainer.insertBefore(toast, firstChild);
+    var messageContainer = document.createElement('div');
+    var firstChild = messageWrapper.hasChildNodes() ? messageWrapper.firstChild : null;
+    messageContainer.textContent = message;
+    if (message === "Form submitted successfully") {
+      messageContainer.classList.add('success-message', 'fade-in');
+    } else {
+      messageContainer.classList.add('error-message', 'fade-in');
+    }
+    messageWrapper.insertBefore(messageContainer, firstChild);
   };
 
   // After 3s checks if there are any messages displayed and starts the slider
-  var startSlider = function startSlider(event) {
+  var startSlider = function startSlider() {
     setTimeout(function () {
-      var lastChild = toastContainer.lastChild;
-      var counter = toastContainer.childElementCount;
-      if (counter > 0) {
-        var id = setInterval(function () {
-          if (counter === 0) {
-            clearInterval(id);
-            return;
-          }
-          var lastChild = toastContainer.lastChild;
-          toastContainer.classList.add('slide-down');
+      var interval = setInterval(function () {
+        if (messages.length > 0) {
+          var lastChild = messageWrapper.lastChild;
+          messageWrapper.classList.add('slide-down');
           lastChild.classList.add('fade-out');
           setTimeout(function () {
-            toastContainer.removeChild(lastChild);
-            toastContainer.classList.remove('slide-down');
-            errorMessages.shift();
-            console.log(errorMessages);
+            messageWrapper.removeChild(lastChild);
+            messageWrapper.classList.remove('slide-down');
+            messages.shift();
+            console.log(messages);
           }, 500);
-          counter--;
-        }, 600);
-      }
-    }, 2000);
+        } else {
+          clearInterval(interval);
+          form.addEventListener("keyup", checkCharactersRange, false);
+          return;
+        }
+      }, 600);
+    }, 4000);
   };
 
   var errorTemplates = {
@@ -285,7 +340,8 @@
   form.addEventListener("keyup", checkCharactersRange, false);
   form.addEventListener("keyup", restorePlaceholder, false);
   form.addEventListener("blur", restorePlaceholder, true);
-
   form.addEventListener("submit", validateForm, false);
   form.addEventListener("submit", startSlider, false);
+
+  init();
 })(window);

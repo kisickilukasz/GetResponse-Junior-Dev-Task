@@ -2,12 +2,29 @@
 
   'use strict';
   let setCheck = null;
-  let errorMessages = [];
+  let messages = [];
   const form = document.getElementById('form');
   const ticket_count = document.getElementById('ticket-count');
   const radios = document.getElementsByName('ticket-radio');
   const inputs = document.querySelectorAll('[data-placeholder]');
-  const toastContainer = document.getElementsByName('toast_container')[0];
+  const messageWrapper = document.getElementsByName('message_wrapper')[0];
+
+  // shows succsess message after submit
+  const init = () => {
+    const retrieved_person = localStorage.getItem("registered_person");
+    const registered_person = JSON.parse(retrieved_person);
+    const isSubmitted = registered_person.submitted;
+    if (!isSubmitted) {
+      return;
+    } else {
+      let message = "Form submitted successfully"
+      messages.push(message);
+      addElement(message);
+      startSlider();
+      registered_person.submitted = false;
+      localStorage.setItem("registered_person", JSON.stringify(registered_person));
+    }
+  }
 
   // logic for unchecking previously checked radio input
   radios.forEach( radio => {
@@ -99,7 +116,7 @@
   }
 
   const validateForm = (event) => {
-    errorMessages = [];
+    messages = [];
     const elements = document.getElementById("form").elements;
 
     if (elements["first_name"].name === "first_name") {
@@ -142,12 +159,41 @@
       validateInput(element);
     }
 
-    showValidationMessage(errorMessages);
-    if (!isFormValid(errorMessages)) {
+    showValidationMessage(messages);
+
+    if (!isFormValid(messages)) {
       event.preventDefault();
+    } else {
+      writeToLocalStorage(elements)
     };
+  }
 
+  const writeToLocalStorage = elements => {
+    const first_name = elements.first_name.value;
+    const last_name = elements.last_name.value;
+    const textarea_1 = elements.textarea_1.value;
+    const textarea_2 = elements.textarea_2.value;
+    const email = elements.email.value;
+    const vid_number = elements.vid_number.value;
+    const ticket_count = elements.ticket_count.value;
+    const submitted = true;
+    const registered_person = new RegisteredPerson(first_name, last_name, textarea_1, textarea_2, email, vid_number, ticket_count, submitted);
 
+    localStorage.setItem("registered_person", JSON.stringify(registered_person));
+    console.log(localStorage);
+  }
+
+  class RegisteredPerson {
+    constructor(first_name, last_name, textarea_1, textarea_2, email, vid_number,ticket_count, submitted) {
+      this.first_name   = first_name;
+      this.last_name    = last_name;
+      this.textarea_1   = textarea_1;
+      this.textarea_2   = textarea_2;
+      this.email        = email;
+      this.vid_number   = vid_number;
+      this.ticket_count = ticket_count;
+      this.submitted    = submitted;
+    }
   }
 
   const validateInput = element => {
@@ -156,8 +202,8 @@
     let message = getValidationMessage(isValid, isEmpty, element.name, element.dataset.placeholder);
     if (!message) {
       return;
-    } else {
-      errorMessages.push(message);
+    } else if (messages.indexOf(message) === -1) {
+      messages.push(message);
     }
   }
 
@@ -173,10 +219,12 @@
     let length = element.value.length;
     if ((element.name === "textarea_1" && length > 10) || (element.name === "textarea_2" && length > 20) || (element.name === "vid_number" && length > 5)) {
       validateInput(element);
-      showValidationMessage(errorMessages);
-      errorMessages = [];
+      showValidationMessage(messages);
+      if (messages.length === 1) {         // checks if error messages is diplayed and starts the slider if true
+          startSlider(event);
+          form.removeEventListener("keyup", checkCharactersRange, false);
+      }
     }
-    return;
   }
 
   const getValidationMessage = (isValid, isEmpty, elementName, elementPlaceholder) => {
@@ -189,11 +237,11 @@
     }
   }
 
-  const showValidationMessage = errorMessages => {
-    if (!errorMessages.length) {
+  const showValidationMessage = messages => {
+    if (!messages.length) {
       return;
     } else {
-      errorMessages.forEach( (message, index) => {
+      messages.forEach( (message, index) => {
         setTimeout(function() {
           checkIfMessageDisplayed(message);
         }, 100 * index)
@@ -201,8 +249,8 @@
     }
   }
 
-  const isFormValid = errorMessages => {
-    if (!errorMessages.length) {
+  const isFormValid = messages => {
+    if (!messages.length) {
       return true;
     }
     return false;
@@ -210,45 +258,47 @@
 
   // Prevents from displaying the same message again
   const checkIfMessageDisplayed = message => {
-    const toastContainerValues = Object.keys(toastContainer.children).map(key => toastContainer.children[key].textContent);
-    const isDisplayed = toastContainerValues.indexOf(message) > -1;
+    const errorNotificationValues = Object.keys(messageWrapper.children).map(key => messageWrapper.children[key].textContent);
+    const isDisplayed = errorNotificationValues.indexOf(message) > -1;
     if (!isDisplayed) {
       addElement(message)
     }
+    return isDisplayed;
   }
 
   const addElement = message => {
-    const toast = document.createElement('div');
-    const firstChild = toastContainer.hasChildNodes() ? toastContainer.firstChild : null;
-    toast.textContent = message;
-    toast.classList.add('toast', 'fade-in');
-    toastContainer.insertBefore(toast, firstChild);
+    const messageContainer = document.createElement('div');
+    const firstChild = messageWrapper.hasChildNodes() ? messageWrapper.firstChild : null;
+    messageContainer.textContent = message;
+    if (message === "Form submitted successfully") {
+      messageContainer.classList.add('success-message', 'fade-in');
+    } else {
+      messageContainer.classList.add('error-message', 'fade-in');
+    }
+    messageWrapper.insertBefore(messageContainer, firstChild);
   }
 
   // After 3s checks if there are any messages displayed and starts the slider
-  const startSlider = event => {
+  const startSlider = () => {
     setTimeout(function() {
-      let lastChild = toastContainer.lastChild;
-      let counter = toastContainer.childElementCount;
-      if (counter > 0) {
-        let id = setInterval(function() {
-          if (counter === 0 ) {
-            clearInterval(id);
-              return;
-          }
-          let lastChild = toastContainer.lastChild;
-          toastContainer.classList.add('slide-down');
+      let interval = setInterval(function() {
+        if (messages.length > 0) {
+          let lastChild = messageWrapper.lastChild;
+          messageWrapper.classList.add('slide-down');
           lastChild.classList.add('fade-out');
           setTimeout(function() {
-            toastContainer.removeChild(lastChild);
-            toastContainer.classList.remove('slide-down');
-            errorMessages.shift();
-            console.log(errorMessages)
+            messageWrapper.removeChild(lastChild);
+            messageWrapper.classList.remove('slide-down');
+            messages.shift();
+            console.log(messages)
           }, 500)
-          counter--;
-        }, 600)
-      }
-    }, 2000)
+        } else {
+          clearInterval(interval);
+          form.addEventListener("keyup", checkCharactersRange, false);
+          return;
+        }
+      }, 600)
+    }, 4000)
   }
 
 
@@ -282,8 +332,9 @@
   form.addEventListener("keyup", checkCharactersRange, false);
   form.addEventListener("keyup", restorePlaceholder, false);
   form.addEventListener("blur", restorePlaceholder, true);
-
   form.addEventListener("submit", validateForm, false);
   form.addEventListener("submit", startSlider, false);
+
+  init();
 
 })(window)

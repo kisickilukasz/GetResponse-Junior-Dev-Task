@@ -1,23 +1,24 @@
 body {
   position: relative;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -ms-flex-line-pack: center;
-      align-content: center;
+  align-content: center;
   margin: 0;
   padding: 0;
   background-color: #ea8f33;
   background-image: linear-gradient(to bottom, #050504, #ea8f33);
   background-repeat: repeat-x;
+  overflow-y: hidden;
   }
 
 
 .flex-container {
-  width: 409px;
+  width: 405px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -33,10 +34,10 @@ body {
   flex-wrap: wrap;
   height: 100vh;         /* view-port height*/
   margin:auto;
-  border: 1px solid goldenrod;
+  border: none;
   -webkit-box-flex: 0;
-      -ms-flex: none;
-          flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 .flex-item {
@@ -48,18 +49,28 @@ body {
   padding: 5px;
 }
 
-.toast-container {
+.message-wrapper {
   width: 370px;
   position: absolute;
   bottom: 2px;
   right: 0;
-  border: 1px solid red;
   color: white;
 }
 
-.toast {
+.error-message {
   width: 350px;
-  background-color: #ed4242;
+  background-color: #f21d1d;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+  opacity: 0.2;
+  color: white;
+  text-align: center;
+}
+
+.success-message {
+  width: 350px;
+  background-color: #569b1d;
   padding: 10px;
   margin-top: 5px;
   border-radius: 10px;
@@ -104,7 +115,7 @@ body {
   -webkit-animation: slide-down 500ms;
   animation: slide-down 500ms;
   -webkit-transform: translateY(42px);
-          transform: translateY(42px);
+  transform: translateY(42px);
 }
 
 @-webkit-keyframes slide-down {
