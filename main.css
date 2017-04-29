@@ -70,7 +70,7 @@ body {
 
 .success-message {
   width: 350px;
-  background-color: #569b1d;
+  background-color: #22e01f;
   padding: 10px;
   margin-top: 5px;
   border-radius: 10px;
@@ -112,20 +112,32 @@ body {
 }
 
 .slide-down {
-  -webkit-animation: slide-down 500ms;
-  animation: slide-down 500ms;
-  -webkit-transform: translateY(42px);
-  transform: translateY(42px);
+  -webkit-animation: slide-down 400ms;
+  animation: slide-down 400ms;
+  -webkit-transform: translateY(43px);
+  transform: translateY(43px);
 }
 
 @-webkit-keyframes slide-down {
-    from {-webkit-transform: translateY(0px);transform: translateY(0px)}
-    to {-webkit-transform: translateY(42px);transform: translateY(42px)}
+    from {
+      -webkit-transform: translateY(0px);
+      transform: translateY(0px);
+    }
+    to {
+      -webkit-transform: translateY(43px);
+      transform: translateY(43px);
+    }
 }
 
 @keyframes slide-down {
-  from {-webkit-transform: translateY(0px);transform: translateY(0px)}
-  to {-webkit-transform: translateY(42px);transform: translateY(42px)}
+  from {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+  to {
+    -webkit-transform: translateY(43px);
+    transform: translateY(43px);
+  }
 }
 
 #flex-radio-left {

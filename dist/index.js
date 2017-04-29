@@ -4,8 +4,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (function (window) {
 
-  'use strict';
-
   var setCheck = null;
   var messages = [];
   var form = document.getElementById('form');
@@ -31,30 +29,30 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
   };
 
-  // logic for unchecking previously checked radio input
-  radios.forEach(function (radio) {
-    radio.onclick = function () {
-      if (setCheck != radio) {
-        setCheck = radio;
-        ticket_count.value = radio.value;
+  // unchecking previously checked radio input
+  for (var i = 0; i < radios.length; i++) {
+    radios[i].onclick = function () {
+      if (setCheck != this) {
+        setCheck = this;
+        ticket_count.value = this.value;
       } else {
-        radio.checked = false;
+        this.checked = false;
         setCheck = null;
         ticket_count.value = null;
       }
     };
-  });
+  }
 
-  inputs.forEach(function (input) {
-    if (!input.value.lenght) {
+  for (var j = 0; j < inputs.length; j++) {
+    var input = inputs[j];
+    if (!input.value.length) {
       input.value = input.dataset.placeholder;
 
       if (input.type === "password") {
         input.type = "text";
       }
     }
-    return;
-  });
+  }
 
   // sets caret at the beginning of an input
   var setCaret = function setCaret(event) {
@@ -62,13 +60,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     if (element.value === element.getAttribute("data-placeholder")) {
       element.setSelectionRange(0, 0);
-
-      if (event.keyCode !== 9) {
-        // for the user that is navigating through the form with tab key
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      return false;
     }
   };
 
@@ -221,6 +212,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   };
 
   var checkCharactersRange = function checkCharactersRange(event) {
+    if (event.keyCode === 9 || event.keyCode === 8) {
+      // prevents event from validating when user navigates with a tab key
+      return;
+    }
     var element = event.target;
     var length = element.value.length;
     if (element.name === "textarea_1" && length > 10 || element.name === "textarea_2" && length > 20 || element.name === "vid_number" && length > 5) {
@@ -280,9 +275,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var firstChild = messageWrapper.hasChildNodes() ? messageWrapper.firstChild : null;
     messageContainer.textContent = message;
     if (message === "Form submitted successfully") {
-      messageContainer.classList.add('success-message', 'fade-in');
+      messageContainer.classList.add('success-message');
+      messageContainer.classList.add('fade-in');
     } else {
-      messageContainer.classList.add('error-message', 'fade-in');
+      messageContainer.classList.add('error-message');
+      messageContainer.classList.add('fade-in');
     }
     messageWrapper.insertBefore(messageContainer, firstChild);
   };
@@ -334,12 +331,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   };
 
   // event delegation on form
-  form.addEventListener("focus", setCaret, false);
   form.addEventListener("click", setCaret, false);
   form.addEventListener("keydown", clearPlaceholder, false);
-  form.addEventListener("keyup", checkCharactersRange, false);
   form.addEventListener("keyup", restorePlaceholder, false);
-  form.addEventListener("blur", restorePlaceholder, true);
+  form.addEventListener("keyup", checkCharactersRange, false);
   form.addEventListener("submit", validateForm, false);
   form.addEventListener("submit", startSlider, false);
 
