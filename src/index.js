@@ -1,5 +1,7 @@
 (function (window) {
 
+  'use strict';
+
   let setCheck = null;
   let messages = [];
   const form = document.getElementById('form');
@@ -288,7 +290,6 @@
             messageWrapper.removeChild(lastChild);
             messageWrapper.classList.remove('slide-down');
             messages.shift();
-            console.log(messages)
           }, 500)
         } else {
           clearInterval(interval);

@@ -4,6 +4,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (function (window) {
 
+  'use strict';
+
   var setCheck = null;
   var messages = [];
   var form = document.getElementById('form');
@@ -296,7 +298,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             messageWrapper.removeChild(lastChild);
             messageWrapper.classList.remove('slide-down');
             messages.shift();
-            console.log(messages);
           }, 500);
         } else {
           clearInterval(interval);
