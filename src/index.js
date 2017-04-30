@@ -10,8 +10,13 @@
     const inputs = document.querySelectorAll('[data-placeholder]');
     const messageWrapper = document.getElementsByName('message_wrapper')[0];
 
-    // shows succsess message after submit
+
     const init = () => {
+        checkIfFormSubmitted();  // shows succsess message after submit
+        bindEvents();
+    }
+
+    const checkIfFormSubmitted = () => {
         const retrieved_person = localStorage.getItem("registered_person");
         const registered_person = JSON.parse(retrieved_person);
         const isSubmitted = registered_person.submitted;
@@ -266,8 +271,11 @@
 
     // Prevents from displaying the same message again
     const checkIfMessageDisplayed = message => {
-        const errorNotificationValues = Object.keys(messageWrapper.children).map(key => messageWrapper.children[key].textContent);
+        const errorNotificationValues = Object.keys(messageWrapper.children)
+            .map(key => messageWrapper.children[key].textContent);
+
         const isDisplayed = errorNotificationValues.indexOf(message) > -1;
+
         if (!isDisplayed) {
             addElement(message)
         }
@@ -288,26 +296,29 @@
         messageWrapper.insertBefore(messageContainer, firstChild);
     }
 
-    // After 3s checks if there are any messages displayed and starts the slider
+    // After 4s checks if there are any messages displayed and starts the slider
     const startSlider = () => {
-        setTimeout(function () {
+        let timeout = setTimeout(function () {
             let interval = setInterval(function () {
                 if (messages.length > 0) {
-                    let lastChild = messageWrapper.lastChild;
                     messageWrapper.classList.add('slide-down');
-                    lastChild.classList.add('fade-out');
-                    setTimeout(function () {
-                        messageWrapper.removeChild(lastChild);
-                        messageWrapper.classList.remove('slide-down');
-                        messages.shift();
-                    }, 500)
+                    messageWrapper.lastChild.classList.add('fade-out');
+                    setTimeout(removeElement, 500)
                 } else {
                     clearInterval(interval);
                     form.addEventListener("keyup", checkCharactersRange, false);
+                    form.addEventListener("submit", startSlider, false);
                     return;
                 }
             }, 600)
         }, 4000)
+    }
+
+    const removeElement = () => {
+        form.removeEventListener("submit", startSlider, false);
+        messageWrapper.removeChild(messageWrapper.lastChild);
+        messageWrapper.classList.remove('slide-down');
+        messages.shift();
     }
 
     const errorTemplates = {
@@ -334,12 +345,14 @@
     }
 
     // event delegation on form
-    form.addEventListener("click", setCaret, false);
-    form.addEventListener("keydown", clearPlaceholder, false);
-    form.addEventListener("keyup", restorePlaceholder, false);
-    form.addEventListener("keyup", checkCharactersRange, false);
-    form.addEventListener("submit", validateForm, false);
-    form.addEventListener("submit", startSlider, false);
+    const bindEvents = () => {
+        form.addEventListener("click", setCaret, false);
+        form.addEventListener("keydown", clearPlaceholder, false);
+        form.addEventListener("keyup", restorePlaceholder, false);
+        form.addEventListener("keyup", checkCharactersRange, false);
+        form.addEventListener("submit", validateForm, false);
+        form.addEventListener("submit", startSlider, false);
+    }
 
     init();
 

@@ -1,10 +1,6 @@
 'use strict';
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function (window) {
 
@@ -18,8 +14,12 @@ function _classCallCheck(instance, Constructor) {
     var inputs = document.querySelectorAll('[data-placeholder]');
     var messageWrapper = document.getElementsByName('message_wrapper')[0];
 
-    // shows succsess message after submit
     var init = function init() {
+        checkIfFormSubmitted(); // shows succsess message after submit
+        bindEvents();
+    };
+
+    var checkIfFormSubmitted = function checkIfFormSubmitted() {
         var retrieved_person = localStorage.getItem("registered_person");
         var registered_person = JSON.parse(retrieved_person);
         var isSubmitted = registered_person.submitted;
@@ -201,8 +201,10 @@ function _classCallCheck(instance, Constructor) {
 
     var validateInput = function validateInput(element) {
         var isEmpty = element.value === element.dataset.placeholder || element.value === "" ? true : false;
+
         var isValid = checkIfValid(element.value, regex[element.name], isEmpty);
         var message = getValidationMessage(isValid, isEmpty, element.name, element.dataset.placeholder);
+
         if (!message) {
             return;
         } else if (messages.indexOf(message) === -1) {
@@ -224,9 +226,11 @@ function _classCallCheck(instance, Constructor) {
         }
         var element = event.target;
         var length = element.value.length;
+
         if (element.name === "textarea_1" && length > 10 || element.name === "textarea_2" && length > 20 || element.name === "vid_number" && length > 5) {
             validateInput(element);
             showValidationMessage(messages);
+
             if (messages.length === 1) {
                 // checks if error messages is diplayed and starts the slider if true
                 startSlider(event);
@@ -269,7 +273,9 @@ function _classCallCheck(instance, Constructor) {
         var errorNotificationValues = Object.keys(messageWrapper.children).map(function (key) {
             return messageWrapper.children[key].textContent;
         });
+
         var isDisplayed = errorNotificationValues.indexOf(message) > -1;
+
         if (!isDisplayed) {
             addElement(message);
         }
@@ -290,26 +296,29 @@ function _classCallCheck(instance, Constructor) {
         messageWrapper.insertBefore(messageContainer, firstChild);
     };
 
-    // After 3s checks if there are any messages displayed and starts the slider
+    // After 4s checks if there are any messages displayed and starts the slider
     var startSlider = function startSlider() {
-        setTimeout(function () {
+        var timeout = setTimeout(function () {
             var interval = setInterval(function () {
                 if (messages.length > 0) {
-                    var lastChild = messageWrapper.lastChild;
                     messageWrapper.classList.add('slide-down');
-                    lastChild.classList.add('fade-out');
-                    setTimeout(function () {
-                        messageWrapper.removeChild(lastChild);
-                        messageWrapper.classList.remove('slide-down');
-                        messages.shift();
-                    }, 500);
+                    messageWrapper.lastChild.classList.add('fade-out');
+                    setTimeout(removeElement, 500);
                 } else {
                     clearInterval(interval);
                     form.addEventListener("keyup", checkCharactersRange, false);
+                    form.addEventListener("submit", startSlider, false);
                     return;
                 }
             }, 600);
         }, 4000);
+    };
+
+    var removeElement = function removeElement() {
+        form.removeEventListener("submit", startSlider, false);
+        messageWrapper.removeChild(messageWrapper.lastChild);
+        messageWrapper.classList.remove('slide-down');
+        messages.shift();
     };
 
     var errorTemplates = {
@@ -336,12 +345,14 @@ function _classCallCheck(instance, Constructor) {
     };
 
     // event delegation on form
-    form.addEventListener("click", setCaret, false);
-    form.addEventListener("keydown", clearPlaceholder, false);
-    form.addEventListener("keyup", restorePlaceholder, false);
-    form.addEventListener("keyup", checkCharactersRange, false);
-    form.addEventListener("submit", validateForm, false);
-    form.addEventListener("submit", startSlider, false);
+    var bindEvents = function bindEvents() {
+        form.addEventListener("click", setCaret, false);
+        form.addEventListener("keydown", clearPlaceholder, false);
+        form.addEventListener("keyup", restorePlaceholder, false);
+        form.addEventListener("keyup", checkCharactersRange, false);
+        form.addEventListener("submit", validateForm, false);
+        form.addEventListener("submit", startSlider, false);
+    };
 
     init();
 })(window);
