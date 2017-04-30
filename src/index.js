@@ -20,14 +20,14 @@
         const retrieved_person = localStorage.getItem("registered_person");
         const registered_person = JSON.parse(retrieved_person);
         const isSubmitted = registered_person.submitted;
-        if (!isSubmitted) {
+        if (isSubmitted) {
             return;
         } else {
             let message = "Form submitted successfully"
             messages.push(message);
             addElement(message);
             startSlider();
-            registered_person.submitted = false;
+            registered_person.submitted = true;
             localStorage.setItem("registered_person", JSON.stringify(registered_person));
         }
     }
@@ -176,7 +176,7 @@
         const email = elements.email.value;
         const vid_number = elements.vid_number.value;
         const ticket_count = elements.ticket_count.value;
-        const submitted = true;
+        const submitted = false;
         const registered_person = new RegisteredPerson(first_name, last_name, textarea_1, textarea_2, email, vid_number, ticket_count, submitted);
 
         localStorage.setItem("registered_person", JSON.stringify(registered_person));

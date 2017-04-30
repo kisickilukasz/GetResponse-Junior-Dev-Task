@@ -23,14 +23,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var retrieved_person = localStorage.getItem("registered_person");
         var registered_person = JSON.parse(retrieved_person);
         var isSubmitted = registered_person.submitted;
-        if (!isSubmitted) {
+        if (isSubmitted) {
             return;
         } else {
             var message = "Form submitted successfully";
             messages.push(message);
             addElement(message);
             startSlider();
-            registered_person.submitted = false;
+            registered_person.submitted = true;
             localStorage.setItem("registered_person", JSON.stringify(registered_person));
         }
     };
@@ -179,7 +179,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var email = elements.email.value;
         var vid_number = elements.vid_number.value;
         var ticket_count = elements.ticket_count.value;
-        var submitted = true;
+        var submitted = false;
         var registered_person = new RegisteredPerson(first_name, last_name, textarea_1, textarea_2, email, vid_number, ticket_count, submitted);
 
         localStorage.setItem("registered_person", JSON.stringify(registered_person));
