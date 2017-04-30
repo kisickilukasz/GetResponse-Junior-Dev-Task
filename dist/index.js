@@ -303,6 +303,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 if (messages.length > 0) {
                     messageWrapper.classList.add('slide-down');
                     messageWrapper.lastChild.classList.add('fade-out');
+                    messages.shift();
                     setTimeout(removeElement, 550);
                 } else {
                     clearInterval(interval);
@@ -315,14 +316,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     var removeElement = function removeElement() {
-        if (!messageWrapper.lastChild) {
-            return;
-        } else {
-            messageWrapper.removeChild(messageWrapper.lastChild);
-            form.removeEventListener("submit", startSlider, false);
-            messages.shift();
-            messageWrapper.classList.remove('slide-down');
-        }
+        messageWrapper.removeChild(messageWrapper.lastChild);
+        form.removeEventListener("submit", startSlider, false);
+        messageWrapper.classList.remove('slide-down');
     };
 
     var errorTemplates = {
