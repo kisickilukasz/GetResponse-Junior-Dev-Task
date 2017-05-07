@@ -8,6 +8,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     var setCheck = null;
     var messages = [];
+    var TAB_KEY = 9;
+    var BACKSPACE_KEY = 8;
     var form = document.getElementById('form');
     var ticket_count = document.getElementById('ticket-count');
     var radios = document.getElementsByName('ticket-radio');
@@ -72,7 +74,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var clearPlaceholder = function clearPlaceholder(event) {
         var element = event.target;
 
-        if (event.keyCode === 9) {
+        if (event.keyCode === TAB_KEY) {
             return;
         }
 
@@ -220,7 +222,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     var checkCharactersRange = function checkCharactersRange(event) {
-        if (event.keyCode === 9 || event.keyCode === 8) {
+        if (event.keyCode === TAB_KEY || event.keyCode === BACKSPACE_KEY) {
             // prevents event from validating when user navigates with a tab key
             return;
         }
@@ -300,7 +302,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var startSlider = function startSlider() {
         var timeout = setTimeout(function () {
             var interval = setInterval(function () {
-                if (messages.length > 0) {
+                if (messageWrapper.lastChild) {
                     messageWrapper.classList.add('slide-down');
                     messageWrapper.lastChild.classList.add('fade-out');
                     messages.shift();
@@ -312,12 +314,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return;
                 }
             }, 600);
+            form.removeEventListener("submit", startSlider, false);
         }, 4000);
     };
 
     var removeElement = function removeElement() {
         messageWrapper.removeChild(messageWrapper.lastChild);
-        form.removeEventListener("submit", startSlider, false);
         messageWrapper.classList.remove('slide-down');
     };
 

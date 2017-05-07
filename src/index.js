@@ -4,6 +4,8 @@
 
     let setCheck = null;
     let messages = [];
+    const TAB_KEY = 9;
+    const BACKSPACE_KEY = 8;
     const form = document.getElementById('form');
     const ticket_count = document.getElementById('ticket-count');
     const radios = document.getElementsByName('ticket-radio');
@@ -69,7 +71,7 @@
     const clearPlaceholder = event => {
         let element = event.target;
 
-        if (event.keyCode === 9) {
+        if (event.keyCode === TAB_KEY) {
             return;
         }
 
@@ -219,7 +221,7 @@
     }
 
     const checkCharactersRange = event => {
-        if (event.keyCode === 9 || event.keyCode === 8) { // prevents event from validating when user navigates with a tab key
+        if (event.keyCode === TAB_KEY || event.keyCode === BACKSPACE_KEY) { // prevents event from validating when user navigates with a tab key
             return;
         }
         let element = event.target;
@@ -300,11 +302,12 @@
     const startSlider = () => {
         let timeout = setTimeout(function () {
             let interval = setInterval(function () {
-                if (messages.length > 0) {
-                    messageWrapper.classList.add('slide-down');
-                    messageWrapper.lastChild.classList.add('fade-out');
-                    messages.shift();
-                    setTimeout(removeElement, 550)
+                if (messageWrapper.lastChild) {
+                      messageWrapper.classList.add('slide-down');
+                      messageWrapper.lastChild.classList.add('fade-out');
+                      messages.shift();
+                      setTimeout(removeElement, 550)
+
                 } else {
                     clearInterval(interval);
                     form.addEventListener("keyup", checkCharactersRange, false);
@@ -312,12 +315,12 @@
                     return;
                 }
             }, 600)
+            form.removeEventListener("submit", startSlider, false);
         }, 4000)
     }
 
     const removeElement = () => {
         messageWrapper.removeChild(messageWrapper.lastChild)
-        form.removeEventListener("submit", startSlider, false);
         messageWrapper.classList.remove('slide-down');
     }
 
