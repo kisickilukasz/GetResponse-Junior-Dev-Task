@@ -1,0 +1,214 @@
+body {
+    position: relative;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: #ea8f33;
+    background-image: linear-gradient(to bottom, #050504, #ea8f33);
+    background-repeat: repeat-x;
+    overflow-y: hidden;
+}
+
+.flex-container {
+    width: 405px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 100vh;
+    margin: auto;
+    border: none;
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+}
+
+.flex-item {
+    width: 190px;
+    box-sizing: border-box;
+    margin: 0 7px 7px 0px;
+    border-style: none;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.message-wrapper {
+    width: 370px;
+    position: absolute;
+    bottom: 2px;
+    right: 0;
+    color: white;
+}
+
+.error-message {
+    width: 350px;
+    background-color: #f21d1d;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    opacity: 0.2;
+    color: white;
+    text-align: center;
+}
+
+.success-message {
+    width: 350px;
+    background-color: #22e01f;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    opacity: 0.2;
+    color: white;
+    text-align: center;
+}
+
+.fade-in {
+    -webkit-animation: fade-in 1s;
+    animation: fade-in 1s;
+    opacity: 0.8;
+}
+
+@-webkit-keyframes fade-in {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 0.8
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 0.8
+    }
+}
+
+.fade-out {
+    -webkit-animation: fade-out 500ms;
+    animation: fade-out 500ms;
+    opacity: 0.2;
+}
+
+@-webkit-keyframes fade-out {
+    from {
+        opacity: 0.8
+    }
+    to {
+        opacity: 0.2
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 0.8
+    }
+    to {
+        opacity: 0.2
+    }
+}
+
+.slide-down {
+    -webkit-animation: slide-down 400ms;
+    animation: slide-down 400ms;
+    -webkit-transform: translateY(43px);
+    transform: translateY(43px);
+}
+
+@-webkit-keyframes slide-down {
+    from {
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+    to {
+        -webkit-transform: translateY(43px);
+        transform: translateY(43px);
+    }
+}
+
+@keyframes slide-down {
+    from {
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+    to {
+        -webkit-transform: translateY(43px);
+        transform: translateY(43px);
+    }
+}
+
+#flex-radio-left {
+    margin-bottom: 5px;
+}
+
+#flex-radio-right {
+    margin: 3px 4px 5px 10px;
+}
+
+.radio-label {
+    color: #ea8f33;
+    margin-bottom: 5px;
+}
+
+#vid-number {
+    width: 104px;
+    margin-right: 0;
+}
+
+#ticket-count {
+    width: 25px;
+    margin-left: 3px;
+    box-sizing: border-box;
+    border-style: none;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.submit-button {
+    background-color: #0067a3;
+    color: white;
+    border-style: none;
+    font-family: monospace;
+    margin-top: 4px;
+}
+
+#ticket-count-label {
+    font-size: 10px;
+    color: white;
+}
+
+.footer-box {
+    width: 240px;
+    margin-top: 40px;
+}
+
+.left-column {
+    margin-left: 7px;
+}
+
+.text-area {
+    resize: none;
+    height: 26px;
+}
+
+.input-placeholder {
+    color: grey;
+}
