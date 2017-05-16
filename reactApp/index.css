@@ -175,7 +175,7 @@ body {
 
 #ticket-count {
     width: 25px;
-    margin-left: 3px;
+    margin-left: 6px;
     box-sizing: border-box;
     border-style: none;
     border-radius: 2px;
@@ -195,7 +195,7 @@ body {
     color: white;
 }
 
-.footer-box {
+.footer-container {
     width: 240px;
     margin-top: 40px;
 }
